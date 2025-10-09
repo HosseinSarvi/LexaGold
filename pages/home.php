@@ -6,15 +6,15 @@ include 'inc/header.php';
   <div class="swiper hero-swiper">
     <div class="swiper-wrapper">
       <div class="swiper-slide hero-slide">
-        <img src="/lexagold/assets/image/1.webp" alt="گالری طلا Lexa - طرح‌های ویژه" />
+        <img src="/lexagold/assets/image/2.webp" alt="گالری طلا Lexa - طرح‌های ویژه" />
         <div class="hero-caption">طرح‌های ویژه پاییز — <strong>کلکسیون جدید</strong></div>
       </div>
       <div class="swiper-slide hero-slide">
-        <img src="/lexagold/assets/image/2.webp" alt="خرید آنلاین طلا - ارسال سریع" />
+        <img src="/lexagold/assets/image/3.webp" alt="خرید آنلاین طلا - ارسال سریع" />
         <div class="hero-caption">ارسال سریع و بیمه مرسوله — <strong>خرید امن</strong></div>
       </div>
       <div class="swiper-slide hero-slide">
-        <img src="/lexagold/assets/image/3.webp" alt="طراحی اختصاصی جواهرات" />
+        <img src="/lexagold/assets/image/1s.webp" alt="طراحی اختصاصی جواهرات" />
         <div class="hero-caption">سفارشی‌سازی انگشتر و گردنبند — <strong>طراحی اختصاصی</strong></div>
       </div>
     </div>
@@ -29,25 +29,25 @@ include 'inc/header.php';
   <div class="swiper-wrapper">
     <div class="swiper-slide">
       <a class="product-card" href="/lexagold/pages/single-product.php?id=1">
-        <img class="product-thumb" src="/lexagold/assets/image/product-1.jpg" alt="دستبند طلا زنانه" />
+        <img class="product-thumb" src="/lexagold/assets/image/product-1.webp" alt="دستبند طلا زنانه" />
         <div class="product-info">
-          <p class="product-name">دستبند ظریف طرح گندم</p>
-          <div class="product-price">۷,۸۵۰,۰۰۰ تومان</div>
+          <p class="product-name">انگشتر با نگین برلیان</p>
+          <div class="product-price">۱۲,۴۰۰,۰۰۰ تومان</div>
         </div>
       </a>
     </div>
     <div class="swiper-slide">
       <a class="product-card" href="/lexagold/pages/single-product.php?id=2">
-        <img class="product-thumb" src="/lexagold/assets/image/product-2.jpg" alt="گردنبند طلا" />
+        <img class="product-thumb" src="/lexagold/assets/image/product-2.webp" alt="گردنبند طلا" />
         <div class="product-info">
-          <p class="product-name">گردنبند لایت با پلاک قلب</p>
+          <p class="product-name">انگشتر با نگین اسپینل</p>
           <div class="product-price">۹,۳۲۰,۰۰۰ تومان</div>
         </div>
       </a>
     </div>
     <div class="swiper-slide">
       <a class="product-card" href="/lexagold/pages/single-product.php?id=3">
-        <img class="product-thumb" src="/lexagold/assets/image/product-3.jpg" alt="انگشتر طلا" />
+        <img class="product-thumb" src="/lexagold/assets/image/product-1.webp" alt="انگشتر طلا" />
         <div class="product-info">
           <p class="product-name">انگشتر با نگین برلیان</p>
           <div class="product-price">۱۲,۴۰۰,۰۰۰ تومان</div>
@@ -56,15 +56,32 @@ include 'inc/header.php';
     </div>
     <div class="swiper-slide">
       <a class="product-card" href="/lexagold/pages/single-product.php?id=4">
-        <img class="product-thumb" src="/lexagold/assets/image/product-4.jpg" alt="گوشواره طلا" />
+        <img class="product-thumb" src="/lexagold/assets/image/product-2.webp" alt="گوشواره طلا" />
         <div class="product-info">
-          <p class="product-name">گوشواره میخی طرح ستاره</p>
-          <div class="product-price">۴,۹۰۰,۰۰۰ تومان</div>
+          <p class="product-name">انگشتر با نگین اسپینل</p>
+          <div class="product-price">۹,۳۲۰,۰۰۰ تومان</div>
+        </div>
+      </a>
+    </div>
+    <div class="swiper-slide">
+      <a class="product-card" href="/lexagold/pages/single-product.php?id=4">
+        <img class="product-thumb" src="/lexagold/assets/image/product-1.webp" alt="گوشواره طلا" />
+        <div class="product-info">
+          <p class="product-name">انگشتر با نگین برلیان</p>
+          <div class="product-price">۱۲,۴۰۰,۰۰۰ تومان</div>
+        </div>
+      </a>
+    </div>
+    <div class="swiper-slide">
+      <a class="product-card" href="/lexagold/pages/single-product.php?id=4">
+        <img class="product-thumb" src="/lexagold/assets/image/product-2.webp" alt="گوشواره طلا" />
+        <div class="product-info">
+          <p class="product-name">انگشتر با نگین اسپینل</p>
+          <div class="product-price">۹,۳۲۰,۰۰۰ تومان</div>
         </div>
       </a>
     </div>
   </div>
-  <div class="swiper-scrollbar"></div>
 </div>
 
 <h2 class="section-title">دسته‌بندی‌ها</h2>
