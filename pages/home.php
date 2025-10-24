@@ -112,6 +112,39 @@ include 'inc/header.php';
   </a>
 </div>
 
+<!-- Video Section -->
+<div class="video-section">
+  <div class="video-content">
+    <div class="video-text">
+      <h3 class="video-title">درباره LexaGold</h3>
+      <p class="video-description">
+        در LexaGold، ما با بیش از دو دهه تجربه در صنعت طلا و جواهرات، 
+        بهترین و باکیفیت‌ترین محصولات طلا را با قیمت‌های رقابتی به شما ارائه می‌دهیم. 
+        تمام محصولات ما با ضمانت اصالت و کیفیت همراه است.
+      </p>
+      <div class="video-features">
+        <div class="feature-item">
+          <span class="feature-icon">⭐</span>
+          <span>ضمانت اصالت طلا</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🚚</span>
+          <span>ارسال رایگان</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">💎</span>
+          <span>طراحی لوکس و چشم نواز</span>
+        </div>
+      </div>
+    </div>
+    <div class="video-container">
+      <video controls autoplay loop muted class="video-player">
+        <source src="/lexagold/assets/image/video.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</div>
+
 <?php
 include 'inc/footer.php';
 ?>
