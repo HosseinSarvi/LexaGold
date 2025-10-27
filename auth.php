@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 
 // Handle form submissions
 $error_message = '';
@@ -265,35 +268,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </style>
 </head>
 <body>
-  <div class="glass-header-wrap">
-    <div class="container">
-      <div class="glass-header">
-        <a href="/lexagold/" class="brand" aria-label="Lexa Gold Home">
-          <span class="brand-mark" aria-hidden="true"></span>
-          <span>
-            <span class="brand-title">Lexa Gold</span>
-            <span class="brand-sub">طلا و جواهر لکسا گلد</span>
-          </span>
-        </a>
-
-        <nav class="nav" id="siteNav" aria-label="Main">
-          <a href="/lexagold/" aria-label="صفحه اصلی">خانه</a>
-          <a href="/lexagold/pages/products.php" aria-label="محصولات">محصولات</a>
-          <a href="#about" aria-label="درباره ما">درباره</a>
-        </nav>
-
-        <button class="menu-toggle" id="navToggle" aria-label="باز و بسته کردن منو" aria-controls="siteNav" aria-expanded="false">☰</button>
-      </div>
-    </div>
-  </div>
-
   <main class="container">
     <div class="auth-container">
       <div class="auth-card">
-        <div class="auth-tabs">
-          <div class="auth-tab active" onclick="switchTab('login')">ورود</div>
-          <div class="auth-tab" onclick="switchTab('register')">ثبت نام</div>
-        </div>
+      <div class="auth-tabs">
+        <div class="auth-tab active" data-tab="login">ورود</div>
+        <div class="auth-tab" data-tab="register">ثبت نام</div>
+      </div>
 
         <?php if ($error_message): ?>
           <div class="alert alert-error"><?php echo $error_message; ?></div>
@@ -368,48 +349,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
   </main>
 
-  <footer class="container" style="padding:28px 0;justify-self: center;color:#9a9a9a;font-size:13px;border-top:1px solid rgba(255,255,255,.08);display: flex;justify-content: center;">
-    © <?php echo date('Y'); ?> Lexa Gold — حسین سروی
-  </footer>
+  <?php
+    include 'inc/footer.php';
+  ?>
 
-  <script>
-    function switchTab(tab) {
-      // Remove active class from all tabs and forms
-      document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-      
-      // Add active class to selected tab and form
-      event.target.classList.add('active');
-      document.getElementById(tab + 'Form').classList.add('active');
-    }
+<script>
+document.addEventListener('DOMContentLoaded', function() {
 
-    function signInWithGoogle() {
-      // Google OAuth implementation
-      alert('ورود با گوگل به زودی فعال خواهد شد');
-    }
+  // --- Tab switching ---
+  const tabs = document.querySelectorAll('.auth-tab');
+  const forms = document.querySelectorAll('.auth-form');
 
-    // Form validation
-    document.getElementById('registerForm').addEventListener('submit', function(e) {
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      // Remove active from all tabs and forms
+      tabs.forEach(t => t.classList.remove('active'));
+      forms.forEach(f => f.classList.remove('active'));
+
+      // Activate clicked tab and corresponding form
+      this.classList.add('active');
+      const targetForm = document.getElementById(this.dataset.tab + 'Form');
+      if(targetForm) targetForm.classList.add('active');
+    });
+  });
+
+  // --- Keep tab after POST ---
+  <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])): ?>
+    const action = "<?php echo $_POST['action']; ?>";
+    tabs.forEach(t => t.classList.remove('active'));
+    forms.forEach(f => f.classList.remove('active'));
+    const activeTab = document.querySelector('.auth-tab[data-tab="'+action+'"]');
+    const activeForm = document.getElementById(action+'Form');
+    if(activeTab) activeTab.classList.add('active');
+    if(activeForm) activeForm.classList.add('active');
+  <?php endif; ?>
+
+  // --- Register form validation ---
+  const registerForm = document.getElementById('registerForm');
+  if(registerForm){
+    registerForm.addEventListener('submit', function(e) {
       const password = document.getElementById('register-password').value;
       const confirmPassword = document.getElementById('register-confirm-password').value;
-      
-      if (password !== confirmPassword) {
+
+      if(password !== confirmPassword){
         e.preventDefault();
         alert('رمز عبور و تکرار آن یکسان نیستند');
         return false;
       }
     });
+  }
 
-    // Mobile menu toggle
-    const navToggle = document.getElementById('navToggle');
-    const siteNav = document.getElementById('siteNav');
-    if(navToggle && siteNav){
-      navToggle.addEventListener('click',()=>{
-        siteNav.classList.toggle('open');
-        const expanded = navToggle.getAttribute('aria-expanded') === 'true';
-        navToggle.setAttribute('aria-expanded', String(!expanded));
-      });
-    }
-  </script>
+  // --- Google login placeholder ---
+  window.signInWithGoogle = function() {
+    alert('ورود با گوگل به زودی فعال خواهد شد');
+  }
+
+  // --- Mobile menu toggle ---
+  const navToggle = document.getElementById('navToggle');
+  const siteNav = document.getElementById('siteNav');
+  if(navToggle && siteNav){
+    navToggle.addEventListener('click',()=>{
+      siteNav.classList.toggle('open');
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!expanded));
+    });
+  }
+
+});
+</script>
+
 </body>
 </html>

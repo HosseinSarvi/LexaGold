@@ -112,7 +112,7 @@ include 'inc/header.php';
   </a>
 </div>
 
-<!-- Video Section -->
+
 <div class="video-section">
   <div class="video-content">
     <div class="video-text">
@@ -124,16 +124,16 @@ include 'inc/header.php';
       </p>
       <div class="video-features">
         <div class="feature-item">
+          <span class="feature-icon">💎</span>
+          <span>طراحی لوکس و چشم نواز</span>
+        </div>
+        <div class="feature-item">
           <span class="feature-icon">⭐</span>
           <span>ضمانت اصالت طلا</span>
         </div>
         <div class="feature-item">
           <span class="feature-icon">🚚</span>
           <span>ارسال رایگان</span>
-        </div>
-        <div class="feature-item">
-          <span class="feature-icon">💎</span>
-          <span>طراحی لوکس و چشم نواز</span>
         </div>
       </div>
     </div>
