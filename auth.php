@@ -268,6 +268,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </style>
 </head>
 <body>
+  <?php
+    include 'inc/header.php';
+  ?>
   <main class="container">
     <div class="auth-container">
       <div class="auth-card">

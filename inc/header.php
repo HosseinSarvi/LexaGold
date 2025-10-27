@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 
 <!doctype html>
@@ -28,7 +30,7 @@ session_start();
           <div style="display:flex;">
             <a href="/lexagold/" aria-label="صفحه اصلی">خانه</a>
             <a href="/lexagold/pages/products.php" aria-label="محصولات">محصولات</a>
-            <a href="#about" aria-label="درباره ما">درباره</a>
+            <a href="/lexagold/pages/about.php" aria-label="درباره ما">درباره</a>
           </div>
         </nav>
         

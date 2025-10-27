@@ -80,8 +80,8 @@ main{padding:28px 0}
 @media (max-width: 640px){.categories-grid{grid-template-columns:repeat(2,1fr)}}
 
 /* Video Section */
-.video-section{margin:50px 0;padding:0 16px}
-.video-content{display:grid;grid-template-columns:2fr 1fr;gap:40px;align-items:start;max-width:1200px;margin:0 auto}
+.video-section{margin:70px 0;padding:0 5px}
+.video-content{display:flex;gap:40px;max-width:1300px}
 .video-text{padding:20px}
 .video-title{font-size:24px;font-weight:700;margin:0 0 20px;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .video-description{font-size:16px;line-height:1.6;color:var(--muted);margin:0 0 30px}
