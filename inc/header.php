@@ -18,29 +18,31 @@ if (session_status() === PHP_SESSION_NONE) {
   <div class="glass-header-wrap">
     <div class="container">
       <div class="glass-header">
-        <a href="/lexagold/" class="brand" aria-label="Lexa Gold Home" style="width:400px">
-          <span class="brand-mark" aria-hidden="true"></span>
-          <span>
-            <span class="brand-title">Lexa Gold</span>
-            <span class="brand-sub">طلا و جواهر لکسا گلد</span>
-          </span>
-        </a>
-
-        <nav class="nav" id="siteNav" aria-label="Main">
-          <div style="display:flex;">
-            <a href="/lexagold/" aria-label="صفحه اصلی">خانه</a>
-            <a href="/lexagold/pages/products.php" aria-label="محصولات">محصولات</a>
-            <a href="/lexagold/pages/about.php" aria-label="درباره ما">درباره</a>
-          </div>
-        </nav>
-        
-        <nav class="nav" id="siteNav" aria-label="Main" style="width:400px">
-          <?php if (isset($_SESSION['user'])): ?>
-          <a href="/lexagold/pages/account.php" style="margin-right:30px;">
-            حساب کاربری
+        <div style="display: flex;gap: 40px;">
+          <a href="/lexagold/" class="brand" aria-label="Lexa Gold Home">
+            <span class="brand-mark" aria-hidden="true"></span>
+            <span>
+              <span class="brand-title">Lexa Gold</span>
+              <span class="brand-sub">طلا و جواهر لکسا گلد</span>
+            </span>
           </a>
+
+          <nav class="nav" id="siteNav" aria-label="Main">
+            <div style="display:flex;">
+              <a href="/lexagold/" aria-label="صفحه اصلی">خانه</a>
+              <a href="/lexagold/pages/products.php" aria-label="محصولات">محصولات</a>
+              <a href="/lexagold/pages/about.php" aria-label="درباره ما">درباره</a>
+            </div>
+          </nav>
+        </div>
+        
+        <nav class="nav" id="siteNav" aria-label="Main">
+        <?php if (isset($_SESSION['user_name'])): ?>
+            <a href="/lexagold/pages/account.php">
+                حساب کاربری
+            </a>
         <?php else: ?>
-          <a href="/lexagold/auth.php" style="margin-right:30px;">
+          <a href="/lexagold/auth.php">
             ورود / ثبت‌نام
           </a>
         <?php endif; ?>

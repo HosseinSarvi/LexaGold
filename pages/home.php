@@ -14,7 +14,7 @@ include 'inc/header.php';
         <div class="hero-caption">ارسال سریع و بیمه مرسوله — <strong>خرید امن</strong></div>
       </div>
       <div class="swiper-slide hero-slide">
-        <img src="/lexagold/assets/image/1s.webp" alt="طراحی اختصاصی جواهرات" />
+        <img src="/lexagold/assets/image/1.webp" alt="طراحی اختصاصی جواهرات" />
         <div class="hero-caption">سفارشی‌سازی انگشتر و گردنبند — <strong>طراحی اختصاصی</strong></div>
       </div>
     </div>

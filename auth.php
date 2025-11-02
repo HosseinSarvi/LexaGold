@@ -1,3 +1,16 @@
+<?php 
+#---DataBase Connection---
+$pdo = new pdo("mysql:host=localhost;dbname=lexadb","root","");
+
+// $sql = "SELECT * FROM users";
+// $stmt = $pdo->prepare($sql);
+// $stmt->execute();
+// $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// // نمایش کاربران
+// foreach ($users as $user) {
+//     echo "ID: {$user['id']}, Username: {$user['username']}, Email: {$user['email']}, Status: {$user['status']}<br>";
+// }
+?>
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -10,8 +23,8 @@ $success_message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
+        #---login---
         if ($_POST['action'] === 'login') {
-            // Handle login
             $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
             $password = $_POST['password'];
             
@@ -29,12 +42,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $error_message = 'ایمیل یا رمز عبور اشتباه است';
                 }
             }
-        } elseif ($_POST['action'] === 'register') {
+        } 
+        #---register---
+        elseif ($_POST['action'] === 'register') {
+            if(!empty($_POST['website'])){
+              die("پات رو گذاشتی رو عسلا");
+            }        
             // Handle registration
             $name = trim($_POST['name']);
             $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
             $password = $_POST['password'];
             $confirm_password = $_POST['confirm_password'];
+            $phone = $_POST['phone'];
             
             if (empty($name) || empty($email) || empty($password) || empty($confirm_password)) {
                 $error_message = 'لطفاً تمام فیلدها را پر کنید';
@@ -42,16 +61,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error_message = 'لطفاً یک ایمیل معتبر وارد کنید';
             } elseif (strlen($password) < 6) {
                 $error_message = 'رمز عبور باید حداقل ۶ کاراکتر باشد';
-            } elseif ($password !== $confirm_password) {
+            } elseif (strlen($phone) != 11) {
+                $error_message = 'شماره همراه معتبر نیست'; 
+            }elseif ($password !== $confirm_password) {
                 $error_message = 'رمز عبور و تکرار آن یکسان نیستند';
             } else {
-                // Simple registration (you should implement proper database storage)
-                $_SESSION['user_id'] = 2;
+                $sql = "INSERT INTO users (username, email, phone, password, status)
+                VALUES (:username, :email, :phone, :password, :status)";
+                $stmt = $pdo->prepare($sql);
+
+                $stmt->bindValue(':username', $name, PDO::PARAM_STR);
+                $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+                $stmt->bindValue(':phone', $phone, PDO::PARAM_STR);
+                $stmt->bindValue(':password', password_hash($confirm_password, PASSWORD_DEFAULT), PDO::PARAM_STR);
+                $stmt->bindValue(':status', 0, PDO::PARAM_STR);
+
+                $stmt->execute();
+              
+                $_SESSION['user_id'] = $pdo->lastInsertId(); // آی‌دی کاربر جدید
                 $_SESSION['user_email'] = $email;
                 $_SESSION['user_name'] = $name;
                 $success_message = 'ثبت نام با موفقیت انجام شد';
-                // Redirect after 2 seconds
-                echo '<script>setTimeout(function(){ window.location.href = "/lexagold/"; }, 2000);</script>';
+
+                echo '<script>setTimeout(function(){ window.location.href = "/lexagold/"; }, 1000);</script>';
             }
         }
     }
@@ -68,6 +100,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="stylesheet" href="/lexagold/assets/css/style.css" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23f7e9a8'/%3E%3Cstop offset='0.35' stop-color='%23d4af37'/%3E%3Cstop offset='0.7' stop-color='%23b9922e'/%3E%3Cstop offset='1' stop-color='%23f4d984'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='8' y='12' width='48' height='40' rx='10' fill='url(%23g)'/%3E%3C/svg%3E">
   <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh; /* حداقل ارتفاع کل صفحه */
+    }
+
+    main.container {
+      flex: 1; /* فضای باقی‌مانده بین هدر و فوتر را پر می‌کند */
+    }
     .auth-container {
       max-width: 450px;
       margin: 60px auto;
@@ -292,8 +339,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <input type="hidden" name="action" value="login">
           
           <div class="form-group">
-            <label class="form-label" for="login-email">ایمیل</label>
-            <input type="email" id="login-email" name="email" class="form-input" placeholder="ایمیل خود را وارد کنید" required>
+            <label class="form-label" for="login-email">ایمیل/شماره همراه</label>
+            <input type="email" id="login-email" name="email" class="form-input" placeholder="ایمیل/شماره همراه خود را وارد کنید" required>
           </div>
           
           <div class="form-group">
@@ -321,6 +368,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label class="form-label" for="register-email">ایمیل</label>
             <input type="email" id="register-email" name="email" class="form-input" placeholder="ایمیل خود را وارد کنید" required>
           </div>
+
+          <div class="form-group">
+            <label class="form-label" for="register-phone">شماره همراه</label>
+            <input type="text" id="register-phone" name="phone" class="form-input" placeholder="شماره همراه خود را وارد کنید" required>
+          </div>
           
           <div class="form-group">
             <label class="form-label" for="register-password">رمز عبور</label>
@@ -331,23 +383,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label class="form-label" for="register-confirm-password">تکرار رمز عبور</label>
             <input type="password" id="register-confirm-password" name="confirm_password" class="form-input" placeholder="رمز عبور را مجدداً وارد کنید" required>
           </div>
+
+          <div style="display:none;">
+            <label>اینجا عسل ریخته</label>
+            <input type="text" name="website" value="">
+          </div>
           
           <button type="submit" class="btn btn-primary">ثبت نام</button>
         </form>
-
-        <div class="divider">
-          <span>یا</span>
         </div>
-
-        <button class="btn btn-google" onclick="signInWithGoogle()">
-          <svg class="google-icon" viewBox="0 0 24 24">
-            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-          </svg>
-          ورود با گوگل
-        </button>
       </div>
     </div>
   </main>
@@ -357,68 +401,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   ?>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    // --- Tab switching ---
+    const tabs = document.querySelectorAll('.auth-tab');
+    const forms = document.querySelectorAll('.auth-form');
 
-  // --- Tab switching ---
-  const tabs = document.querySelectorAll('.auth-tab');
-  const forms = document.querySelectorAll('.auth-form');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        // Remove active from all tabs and forms
+        tabs.forEach(t => t.classList.remove('active'));
+        forms.forEach(f => f.classList.remove('active'));
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', function() {
-      // Remove active from all tabs and forms
+        // Activate clicked tab and corresponding form
+        this.classList.add('active');
+        const targetForm = document.getElementById(this.dataset.tab + 'Form');
+        if(targetForm) targetForm.classList.add('active');
+      });
+    });
+
+    // --- Keep tab after POST ---
+    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])): ?>
+      const action = "<?php echo $_POST['action']; ?>";
       tabs.forEach(t => t.classList.remove('active'));
       forms.forEach(f => f.classList.remove('active'));
+      const activeTab = document.querySelector('.auth-tab[data-tab="'+action+'"]');
+      const activeForm = document.getElementById(action+'Form');
+      if(activeTab) activeTab.classList.add('active');
+      if(activeForm) activeForm.classList.add('active');
+    <?php endif; ?>
 
-      // Activate clicked tab and corresponding form
-      this.classList.add('active');
-      const targetForm = document.getElementById(this.dataset.tab + 'Form');
-      if(targetForm) targetForm.classList.add('active');
-    });
+    // --- Register form validation ---
+    const registerForm = document.getElementById('registerForm');
+    if(registerForm){
+      registerForm.addEventListener('submit', function(e) {
+        const password = document.getElementById('register-password').value;
+        const confirmPassword = document.getElementById('register-confirm-password').value;
+
+        if(password !== confirmPassword){
+          e.preventDefault();
+          alert('رمز عبور و تکرار آن یکسان نیستند');
+          return false;
+        }
+      });
+    }
+
+    // --- Google login placeholder ---
+    window.signInWithGoogle = function() {
+      alert('ورود با گوگل به زودی فعال خواهد شد');
+    }
+
+    // --- Mobile menu toggle ---
+    const navToggle = document.getElementById('navToggle');
+    const siteNav = document.getElementById('siteNav');
+    if(navToggle && siteNav){
+      navToggle.addEventListener('click',()=>{
+        siteNav.classList.toggle('open');
+        const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+        navToggle.setAttribute('aria-expanded', String(!expanded));
+      });
+    }
+
   });
-
-  // --- Keep tab after POST ---
-  <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])): ?>
-    const action = "<?php echo $_POST['action']; ?>";
-    tabs.forEach(t => t.classList.remove('active'));
-    forms.forEach(f => f.classList.remove('active'));
-    const activeTab = document.querySelector('.auth-tab[data-tab="'+action+'"]');
-    const activeForm = document.getElementById(action+'Form');
-    if(activeTab) activeTab.classList.add('active');
-    if(activeForm) activeForm.classList.add('active');
-  <?php endif; ?>
-
-  // --- Register form validation ---
-  const registerForm = document.getElementById('registerForm');
-  if(registerForm){
-    registerForm.addEventListener('submit', function(e) {
-      const password = document.getElementById('register-password').value;
-      const confirmPassword = document.getElementById('register-confirm-password').value;
-
-      if(password !== confirmPassword){
-        e.preventDefault();
-        alert('رمز عبور و تکرار آن یکسان نیستند');
-        return false;
-      }
-    });
-  }
-
-  // --- Google login placeholder ---
-  window.signInWithGoogle = function() {
-    alert('ورود با گوگل به زودی فعال خواهد شد');
-  }
-
-  // --- Mobile menu toggle ---
-  const navToggle = document.getElementById('navToggle');
-  const siteNav = document.getElementById('siteNav');
-  if(navToggle && siteNav){
-    navToggle.addEventListener('click',()=>{
-      siteNav.classList.toggle('open');
-      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
-      navToggle.setAttribute('aria-expanded', String(!expanded));
-    });
-  }
-
-});
 </script>
 
 </body>
