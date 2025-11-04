@@ -19,6 +19,9 @@
 </div>
 
 <style>
+  .mobile-toolbar {
+    display: none; /* پیش‌فرض دسکتاپ: مخفی */
+}
 @media (max-width: 768px) {
   .mobile-toolbar {
     position: fixed;
