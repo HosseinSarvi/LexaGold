@@ -41,12 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       
               $stmt = $pdo->prepare($query);
               $stmt->execute([$identifier]);
-              $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-              var_dump($identifier);                // ایمیل یا شماره وارد شده
-              var_dump($user['password']);          // هش ذخیره‌شده در دیتابیس
-              var_dump(password_verify($password, $user['password'])); // نتیجه مقایسه
-              var_dump($password);                  // رمز وارد شده              
+              $user = $stmt->fetch(PDO::FETCH_ASSOC);          
 
               if ($user && password_verify($password, $user['password'])) {
                   // ورود موفق
