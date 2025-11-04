@@ -146,5 +146,6 @@ include 'inc/header.php';
 </div>
 
 <?php
+include 'inc/toolbar.php';
 include 'inc/footer.php';
 ?>
