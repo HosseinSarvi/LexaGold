@@ -236,52 +236,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       box-shadow: 0 8px 25px rgba(212,175,55,.3);
     }
     
-    .btn-google {
-      background: #fff;
-      color: #333;
-      border: 1px solid #ddd;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    
-    .btn-google:hover {
-      background: #f8f9fa;
-      transform: translateY(-1px);
-    }
-    
-    .google-icon {
-      width: 20px;
-      height: 20px;
-    }
-    
-    .divider {
-      text-align: center;
-      margin: 20px 0;
-      position: relative;
-      color: var(--muted);
-      font-size: 14px;
-    }
-    
-    .divider::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: var(--glass-stroke);
-      z-index: 1;
-    }
-    
-    .divider span {
-      background: var(--bg-900);
-      padding: 0 16px;
-      position: relative;
-      z-index: 2;
-    }
-    
     .alert {
       padding: 12px 16px;
       border-radius: 10px;
