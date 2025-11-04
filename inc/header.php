@@ -46,15 +46,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
         <nav class="nav" id="siteNav" aria-label="Main">
           <?php if (isset($_SESSION['user_name'])): ?>  
               <div class="account-dropdown">
-                  <a href="/lexagold/pages/account.php" class="account-btn">
+                  <a href="/lexagold/pages/my-account.php" class="account-btn">
                       حساب کاربری
                   </a>
                   <div class="dropdown-content">
                       <form method="POST" action="">
-                        <button href="#">پیشخوان</button>
-                        <button href="#">سفارش ها</button>
-                        <button href="#">اطلاعات حساب</button>
-                        <button type="submit" name="logout">خروج</button>
+                        <a href="/lexagold/pages/my-account.php" class="btn btn-primary">پیشخوان</a>
+                        <a href="#" class="btn btn-primary">سفارش‌ها</a>
+                        <a href="/lexagold/pages/my-account.php" class="btn btn-primary">اطلاعات حساب</a>
+                        <button type="submit" name="logout" class="btn btn-primary">خروج</button>
                       </form>
                   </div>
               </div>
