@@ -329,6 +329,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       
       .auth-card {
         padding: 30px 20px;
+        margin: 0px -30px;
       }
     }
   </style>
