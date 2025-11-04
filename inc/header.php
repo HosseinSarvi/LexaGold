@@ -2,6 +2,13 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
+  session_unset();
+  session_destroy();
+  header("Location: /lexagold/"); // بازگشت به صفحه اصلی
+  exit;
+}
+
 ?>
 
 <!doctype html>
@@ -37,39 +44,61 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
         
         <nav class="nav" id="siteNav" aria-label="Main">
-        <?php if (isset($_SESSION['user_name'])): ?>
-            <a href="/lexagold/pages/account.php">
-                حساب کاربری
-            </a>
-        <?php else: ?>
-          <a href="/lexagold/auth.php">
-            ورود / ثبت‌نام
-          </a>
-        <?php endif; ?>
-
+          <?php if (isset($_SESSION['user_name'])): ?>  
+              <div class="account-dropdown">
+                  <a href="/lexagold/pages/account.php" class="account-btn">
+                      حساب کاربری
+                  </a>
+                  <div class="dropdown-content">
+                      <form method="POST" action="">
+                        <button href="#">پیشخوان</button>
+                        <button href="#">سفارش ها</button>
+                        <button href="#">اطلاعات حساب</button>
+                        <button type="submit" name="logout">خروج</button>
+                      </form>
+                  </div>
+              </div>
+          <?php else: ?>
+              <a href="/lexagold/auth.php">
+                  ورود / ثبت‌نام
+              </a>
+          <?php endif; ?>
+            
           <span class="price-chip" id="gold18Chip" aria-live="polite" title="قیمت طلای 18 عیار">
             <span class="price-dot" aria-hidden="true"></span>
-            <span>طلای ۱۸ عیار:</span>
-            <span class="price-val" id="gold18Val">
-                <?php
-                    $curl = curl_init();
-                    curl_setopt_array($curl, [
-                    CURLOPT_URL => "https://api.alanchand.com/?type=golds&token=Rbx0KtfihFQSVZxPnF1X",
-                    CURLOPT_RETURNTRANSFER => true,
-                    ]);
-                    $response = curl_exec($curl);
-                    curl_close($curl);
+              <span>طلای ۱۸ عیار:</span>
+                <span class="price-val" id="gold18Val">
+                  <?php
+                  
+                  $curl = curl_init();
+                  curl_setopt_array($curl, [
+                      CURLOPT_URL => "https://BrsApi.ir/Api/Market/Gold_Currency.php?key=Bwh8PazQkHxQNqytmlyLPKi8g3WHqGSI",
+                      CURLOPT_RETURNTRANSFER => true,
+                  ]);
+                  $response = curl_exec($curl);
+                  curl_close($curl);
 
-                    $data = json_decode($response, true);
+                  $data = json_decode($response, true);
 
-                    if (isset($data['18ayar']['price'])) {
-                        echo number_format($data['18ayar']['price']) . " تومان";
-                    } else {
-                        echo "❌ اطلاعات قیمت در دسترس نیست.";
-                    }
-                ?>
-            </span>
+                  if (isset($data['gold']) && is_array($data['gold'])) {
+                      $found = false;
+                      foreach ($data['gold'] as $item) {
+                          if (isset($item['symbol']) && $item['symbol'] === 'IR_GOLD_18K') {
+                              echo number_format($item['price']) . " تومان";
+                              $found = true;
+                              break;
+                          }
+                      }
+                      if (!$found) {
+                          echo "❌ قیمت طلای ۱۸ عیار یافت نشد.";
+                      }
+                  }  else {
+                      echo "❌ اطلاعات قیمت در دسترس نیست.";
+                  }
+                  ?>
+                </span>
           </span>
+
         </nav>
 
         <button class="menu-toggle" id="navToggle" aria-label="باز و بسته کردن منو" aria-controls="siteNav" aria-expanded="false">☰</button>

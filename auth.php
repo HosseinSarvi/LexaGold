@@ -2,13 +2,14 @@
 #---DataBase Connection---
 $pdo = new pdo("mysql:host=localhost;dbname=lexadb","root","");
 
-// $sql = "SELECT * FROM users";
+// $emailyamobile = "09154826763"
+// $sql = "SELECT id FROM users WHERE username = ?";
 // $stmt = $pdo->prepare($sql);
 // $stmt->execute();
 // $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // // نمایش کاربران
 // foreach ($users as $user) {
-//     echo "ID: {$user['id']}, Username: {$user['username']}, Email: {$user['email']}, Status: {$user['status']}<br>";
+//     echo "ID: {$user['id']}, Email: {$user['email']}, Phone: {$user['phone']}<br>";
 // }
 ?>
 <?php
@@ -25,24 +26,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
         #---login---
         if ($_POST['action'] === 'login') {
-            $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-            $password = $_POST['password'];
-            
-            if (empty($email) || empty($password)) {
-                $error_message = 'لطفاً تمام فیلدها را پر کنید';
-            } else {
-                // Simple authentication (you should implement proper database authentication)
-                if ($email === 'admin@lexagold.com' && $password === '123456') {
-                    $_SESSION['user_id'] = 1;
-                    $_SESSION['user_email'] = $email;
-                    $_SESSION['user_name'] = 'کاربر تست';
-                    header('Location: /lexagold/');
-                    exit;
-                } else {
-                    $error_message = 'ایمیل یا رمز عبور اشتباه است';
-                }
-            }
-        } 
+          $identifier = trim($_POST['email']); // کاربر می‌تونه ایمیل یا شماره وارد کنه
+          $password = $_POST['password'];
+          
+          if (empty($identifier) || empty($password)) {
+              $error_message = 'لطفاً تمام فیلدها را پر کنید';
+          } else {
+              // تشخیص اینکه کاربر ایمیل وارد کرده یا شماره
+              if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
+                  $query = "SELECT * FROM users WHERE email = ?";
+              } else {
+                  $query = "SELECT * FROM users WHERE phone = ?";
+              }
+      
+              $stmt = $pdo->prepare($query);
+              $stmt->execute([$identifier]);
+              $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+              var_dump($identifier);                // ایمیل یا شماره وارد شده
+              var_dump($user['password']);          // هش ذخیره‌شده در دیتابیس
+              var_dump(password_verify($password, $user['password'])); // نتیجه مقایسه
+              var_dump($password);                  // رمز وارد شده              
+
+              if ($user && password_verify($password, $user['password'])) {
+                  // ورود موفق
+                  $_SESSION['user_id'] = $user['id'];
+                  $_SESSION['user_email'] = $user['email'];
+                  $_SESSION['user_name'] = $user['username']; // یا هر ستونی که داری
+                  
+                  header('Location: /lexagold/');
+                  exit;
+              } else {
+                  $error_message = 'ایمیل، شماره یا رمز عبور اشتباه است';
+              }
+          }
+      }
+      
         #---register---
         elseif ($_POST['action'] === 'register') {
             if(!empty($_POST['website'])){
@@ -321,76 +340,76 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <main class="container">
     <div class="auth-container">
       <div class="auth-card">
-      <div class="auth-tabs">
-        <div class="auth-tab active" data-tab="login">ورود</div>
-        <div class="auth-tab" data-tab="register">ثبت نام</div>
-      </div>
+        <div class="auth-tabs">
+          <div class="auth-tab active" data-tab="login">ورود</div>
+          <div class="auth-tab" data-tab="register">ثبت نام</div>
+        </div>
 
-        <?php if ($error_message): ?>
-          <div class="alert alert-error"><?php echo $error_message; ?></div>
-        <?php endif; ?>
+          <?php if ($error_message): ?>
+            <div class="alert alert-error"><?php echo $error_message; ?></div>
+          <?php endif; ?>
 
-        <?php if ($success_message): ?>
-          <div class="alert alert-success"><?php echo $success_message; ?></div>
-        <?php endif; ?>
+          <?php if ($success_message): ?>
+            <div class="alert alert-success"><?php echo $success_message; ?></div>
+          <?php endif; ?>
 
-        <!-- Login Form -->
-        <form class="auth-form active" id="loginForm" method="POST">
-          <input type="hidden" name="action" value="login">
-          
-          <div class="form-group">
-            <label class="form-label" for="login-email">ایمیل/شماره همراه</label>
-            <input type="email" id="login-email" name="email" class="form-input" placeholder="ایمیل/شماره همراه خود را وارد کنید" required>
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label" for="login-password">رمز عبور</label>
-            <input type="password" id="login-password" name="password" class="form-input" placeholder="رمز عبور خود را وارد کنید" required>
-          </div>
-          
-          <button type="submit" class="btn btn-primary">ورود</button>
-          
-          <div class="forgot-password">
-            <a href="#" onclick="alert('این قابلیت به زودی اضافه خواهد شد')">فراموشی رمز عبور؟</a>
-          </div>
-        </form>
+          <!-- Login Form -->
+          <form class="auth-form active" id="loginForm" method="POST">
+            <input type="hidden" name="action" value="login">
+            
+            <div class="form-group">
+              <label class="form-label" for="login-email">ایمیل/شماره همراه</label>
+              <input type="text" id="login-email" name="email" class="form-input" placeholder="ایمیل/شماره همراه خود را وارد کنید" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="login-password">رمز عبور</label>
+              <input type="password" id="login-password" name="password" class="form-input" placeholder="رمز عبور خود را وارد کنید" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">ورود</button>
+            
+            <div class="forgot-password">
+              <a href="#" onclick="alert('این قابلیت به زودی اضافه خواهد شد')">فراموشی رمز عبور؟</a>
+            </div>
+          </form>
 
-        <!-- Register Form -->
-        <form class="auth-form" id="registerForm" method="POST">
-          <input type="hidden" name="action" value="register">
-          
-          <div class="form-group">
-            <label class="form-label" for="register-name">نام و نام خانوادگی</label>
-            <input type="text" id="register-name" name="name" class="form-input" placeholder="نام و نام خانوادگی خود را وارد کنید" required>
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label" for="register-email">ایمیل</label>
-            <input type="email" id="register-email" name="email" class="form-input" placeholder="ایمیل خود را وارد کنید" required>
-          </div>
+          <!-- Register Form -->
+          <form class="auth-form" id="registerForm" method="POST">
+            <input type="hidden" name="action" value="register">
+            
+            <div class="form-group">
+              <label class="form-label" for="register-name">نام و نام خانوادگی</label>
+              <input type="text" id="register-name" name="name" class="form-input" placeholder="نام و نام خانوادگی خود را وارد کنید" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="register-email">ایمیل</label>
+              <input type="email" id="register-email" name="email" class="form-input" placeholder="ایمیل خود را وارد کنید" required>
+            </div>
 
-          <div class="form-group">
-            <label class="form-label" for="register-phone">شماره همراه</label>
-            <input type="text" id="register-phone" name="phone" class="form-input" placeholder="شماره همراه خود را وارد کنید" required>
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label" for="register-password">رمز عبور</label>
-            <input type="password" id="register-password" name="password" class="form-input" placeholder="رمز عبور خود را وارد کنید" required>
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label" for="register-confirm-password">تکرار رمز عبور</label>
-            <input type="password" id="register-confirm-password" name="confirm_password" class="form-input" placeholder="رمز عبور را مجدداً وارد کنید" required>
-          </div>
+            <div class="form-group">
+              <label class="form-label" for="register-phone">شماره همراه</label>
+              <input type="text" id="register-phone" name="phone" class="form-input" placeholder="شماره همراه خود را وارد کنید" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="register-password">رمز عبور</label>
+              <input type="password" id="register-password" name="password" class="form-input" placeholder="رمز عبور خود را وارد کنید" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="register-confirm-password">تکرار رمز عبور</label>
+              <input type="password" id="register-confirm-password" name="confirm_password" class="form-input" placeholder="رمز عبور را مجدداً وارد کنید" required>
+            </div>
 
-          <div style="display:none;">
-            <label>اینجا عسل ریخته</label>
-            <input type="text" name="website" value="">
-          </div>
-          
-          <button type="submit" class="btn btn-primary">ثبت نام</button>
-        </form>
+            <div style="display:none;">
+              <label>اینجا عسل ریخته</label>
+              <input type="text" name="website" value="">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">ثبت نام</button>
+          </form>
         </div>
       </div>
     </div>
