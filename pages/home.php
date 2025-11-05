@@ -6,16 +6,12 @@ include 'inc/header.php';
   <div class="swiper hero-swiper">
     <div class="swiper-wrapper">
       <div class="swiper-slide hero-slide">
-        <img src="/lexagold/assets/image/2.webp" alt="گالری طلا Lexa - طرح‌های ویژه" />
+        <img src="./assets/image/2.webp" alt="گالری طلا Lexa - طرح‌های ویژه" />
         <div class="hero-caption">طرح‌های ویژه پاییز — <strong>کلکسیون جدید</strong></div>
       </div>
       <div class="swiper-slide hero-slide">
-        <img src="/lexagold/assets/image/3.webp" alt="خرید آنلاین طلا - ارسال سریع" />
+        <img src="./assets/image/3.webp" alt="خرید آنلاین طلا - ارسال سریع" />
         <div class="hero-caption">ارسال سریع و بیمه مرسوله — <strong>خرید امن</strong></div>
-      </div>
-      <div class="swiper-slide hero-slide">
-        <img src="/lexagold/assets/image/1.webp" alt="طراحی اختصاصی جواهرات" />
-        <div class="hero-caption">سفارشی‌سازی انگشتر و گردنبند — <strong>طراحی اختصاصی</strong></div>
       </div>
     </div>
     <div class="swiper-pagination"></div>
@@ -28,8 +24,8 @@ include 'inc/header.php';
 <div class="swiper products-swiper">
   <div class="swiper-wrapper">
     <div class="swiper-slide">
-      <a class="product-card" href="/lexagold/pages/single-product.php?id=1">
-        <img class="product-thumb" src="/lexagold/assets/image/product-1.webp" alt="دستبند طلا زنانه" />
+      <a class="product-card" href="./pages/single-product.php?id=1">
+        <img class="product-thumb" src="./assets/image/product-1.webp" alt="دستبند طلا زنانه" />
         <div class="product-info">
           <p class="product-name">انگشتر با نگین برلیان</p>
           <div class="product-price">۱۲,۴۰۰,۰۰۰ تومان</div>
@@ -37,8 +33,8 @@ include 'inc/header.php';
       </a>
     </div>
     <div class="swiper-slide">
-      <a class="product-card" href="/lexagold/pages/single-product.php?id=2">
-        <img class="product-thumb" src="/lexagold/assets/image/product-2.webp" alt="گردنبند طلا" />
+      <a class="product-card" href="./pages/single-product.php?id=2">
+        <img class="product-thumb" src="./assets/image/product-2.webp" alt="گردنبند طلا" />
         <div class="product-info">
           <p class="product-name">انگشتر با نگین اسپینل</p>
           <div class="product-price">۹,۳۲۰,۰۰۰ تومان</div>
@@ -46,8 +42,8 @@ include 'inc/header.php';
       </a>
     </div>
     <div class="swiper-slide">
-      <a class="product-card" href="/lexagold/pages/single-product.php?id=3">
-        <img class="product-thumb" src="/lexagold/assets/image/product-1.webp" alt="انگشتر طلا" />
+      <a class="product-card" href="./pages/single-product.php?id=3">
+        <img class="product-thumb" src="./assets/image/product-1.webp" alt="انگشتر طلا" />
         <div class="product-info">
           <p class="product-name">انگشتر با نگین برلیان</p>
           <div class="product-price">۱۲,۴۰۰,۰۰۰ تومان</div>
@@ -55,8 +51,8 @@ include 'inc/header.php';
       </a>
     </div>
     <div class="swiper-slide">
-      <a class="product-card" href="/lexagold/pages/single-product.php?id=4">
-        <img class="product-thumb" src="/lexagold/assets/image/product-2.webp" alt="گوشواره طلا" />
+      <a class="product-card" href="./pages/single-product.php?id=4">
+        <img class="product-thumb" src="./assets/image/product-2.webp" alt="گوشواره طلا" />
         <div class="product-info">
           <p class="product-name">انگشتر با نگین اسپینل</p>
           <div class="product-price">۹,۳۲۰,۰۰۰ تومان</div>
@@ -64,8 +60,8 @@ include 'inc/header.php';
       </a>
     </div>
     <div class="swiper-slide">
-      <a class="product-card" href="/lexagold/pages/single-product.php?id=4">
-        <img class="product-thumb" src="/lexagold/assets/image/product-1.webp" alt="گوشواره طلا" />
+      <a class="product-card" href="./pages/single-product.php?id=4">
+        <img class="product-thumb" src="./assets/image/product-1.webp" alt="گوشواره طلا" />
         <div class="product-info">
           <p class="product-name">انگشتر با نگین برلیان</p>
           <div class="product-price">۱۲,۴۰۰,۰۰۰ تومان</div>
@@ -73,8 +69,8 @@ include 'inc/header.php';
       </a>
     </div>
     <div class="swiper-slide">
-      <a class="product-card" href="/lexagold/pages/single-product.php?id=4">
-        <img class="product-thumb" src="/lexagold/assets/image/product-2.webp" alt="گوشواره طلا" />
+      <a class="product-card" href="./pages/single-product.php?id=4">
+        <img class="product-thumb" src="./assets/image/product-2.webp" alt="گوشواره طلا" />
         <div class="product-info">
           <p class="product-name">انگشتر با نگین اسپینل</p>
           <div class="product-price">۹,۳۲۰,۰۰۰ تومان</div>
@@ -86,28 +82,28 @@ include 'inc/header.php';
 
 <h2 class="section-title">دسته‌بندی‌ها</h2>
 <div class="categories-grid">
-  <a class="cat-tile" href="/lexagold/pages/products.php?cat=bracelet" aria-label="دستبند">
-    <img src="/lexagold/assets/image/category-bracelet.webp" alt="دسته‌بندی دستبند" />
+  <a class="cat-tile" href="./pages/products.php?cat=bracelet" aria-label="دستبند">
+    <img src="./assets/image/category-bracelet.webp" alt="دسته‌بندی دستبند" />
     <span class="cat-label">دستبند</span>
   </a>
-  <a class="cat-tile" href="/lexagold/pages/products.php?cat=necklace" aria-label="گردنبند">
-    <img src="/lexagold/assets/image/category-necklace.webp" alt="دسته‌بندی گردنبند" />
+  <a class="cat-tile" href="./pages/products.php?cat=necklace" aria-label="گردنبند">
+    <img src="./assets/image/category-necklace.webp" alt="دسته‌بندی گردنبند" />
     <span class="cat-label">گردنبند</span>
   </a>
-  <a class="cat-tile" href="/lexagold/pages/products.php?cat=ring" aria-label="انگشتر">
-    <img src="/lexagold/assets/image/category-ring.webp" alt="دسته‌بندی انگشتر" />
+  <a class="cat-tile" href="./pages/products.php?cat=ring" aria-label="انگشتر">
+    <img src="./assets/image/category-ring.webp" alt="دسته‌بندی انگشتر" />
     <span class="cat-label">انگشتر</span>
   </a>
-  <a class="cat-tile" href="/lexagold/pages/products.php?cat=earrings" aria-label="گوشواره">
-    <img src="/lexagold/assets/image/category-earring.webp" alt="دسته‌بندی گوشواره" />
+  <a class="cat-tile" href="./pages/products.php?cat=earrings" aria-label="گوشواره">
+    <img src="./assets/image/category-earring.webp" alt="دسته‌بندی گوشواره" />
     <span class="cat-label">گوشواره</span>
   </a>
-  <a class="cat-tile" href="/lexagold/pages/products.php?cat=set" aria-label="ست طلا">
-    <img src="/lexagold/assets/image/category-set.webp" alt="دسته‌بندی ست" />
+  <a class="cat-tile" href="./pages/products.php?cat=set" aria-label="ست طلا">
+    <img src="./assets/image/category-set.webp" alt="دسته‌بندی ست" />
     <span class="cat-label">ست</span>
   </a>
-  <a class="cat-tile" href="/lexagold/pages/products.php?cat=men" aria-label="طلا مردانه">
-    <img src="/lexagold/assets/image/category-men.webp" alt="دسته‌بندی مردانه" />
+  <a class="cat-tile" href="./pages/products.php?cat=men" aria-label="طلا مردانه">
+    <img src="./assets/image/category-men.webp" alt="دسته‌بندی مردانه" />
     <span class="cat-label">مردانه</span>
   </a>
 </div>
@@ -139,7 +135,7 @@ include 'inc/header.php';
     </div>
     <div class="video-container">
       <video controls autoplay loop muted class="video-player">
-        <source src="/lexagold/assets/image/video.mp4" type="video/mp4">
+        <source src="./assets/image/video.mp4" type="video/mp4">
       </video>
     </div>
   </div>

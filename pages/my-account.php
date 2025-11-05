@@ -3,7 +3,7 @@ session_start();
 
 // بررسی وضعیت لاگین کاربر
 if (!isset($_SESSION['user_id'])) { // فرض می‌کنیم user_id هنگام ورود ست می‌شود
-    header("Location: /lexagold/auth.php");
+    header("Location: /auth.php");
     exit;
 }
 
@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id'])) { // فرض می‌کنیم user_id هنگام
 if (isset($_POST['logout'])) {
     $_SESSION = [];
     session_destroy();
-    header("Location: /lexagold/auth.php");
+    header("Location: /auth.php");
     exit;
 }
 ?>

@@ -1,4 +1,4 @@
-    </main>
+</main>
     <footer class="container" style="padding:28px 0;justify-self: center;color:#9a9a9a;font-size:13px;border-top:1px solid rgba(255,255,255,.08);display: flex;justify-content: center;">
         Lexa Gold — حسین سروی
     </footer>

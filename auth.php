@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   $_SESSION['user_email'] = $user['email'];
                   $_SESSION['user_name'] = $user['username']; // یا هر ستونی که داری
                   
-                  header('Location: /lexagold/');
+                  header('Location: /');
                   exit;
               } else {
                   $error_message = 'ایمیل، شماره یا رمز عبور اشتباه است';
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['user_name'] = $name;
                 $success_message = 'ثبت نام با موفقیت انجام شد';
 
-                echo '<script>setTimeout(function(){ window.location.href = "/lexagold/"; }, 1000);</script>';
+                echo '<script>setTimeout(function(){ window.location.href = "/"; }, 1000);</script>';
             }
         }
     }
@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ورود و ثبت نام - Lexa Gold</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
-  <link rel="stylesheet" href="/lexagold/assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23f7e9a8'/%3E%3Cstop offset='0.35' stop-color='%23d4af37'/%3E%3Cstop offset='0.7' stop-color='%23b9922e'/%3E%3Cstop offset='1' stop-color='%23f4d984'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='8' y='12' width='48' height='40' rx='10' fill='url(%23g)'/%3E%3C/svg%3E">
   <style>
     html, body {
