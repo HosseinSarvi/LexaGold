@@ -1,6 +1,6 @@
 <?php 
 #---DataBase Connection---
-$pdo = new pdo("mysql:host=localhost;dbname=lexadb","root","");
+$pdo = new pdo("mysql:host=localhost;dbname=lexadb;charset=utf8mb4","root","");
 
 // $emailyamobile = "09154826763"
 // $sql = "SELECT id FROM users WHERE username = ?";
@@ -59,46 +59,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       
         #---register---
         elseif ($_POST['action'] === 'register') {
-            if(!empty($_POST['website'])){
+          if (!empty($_POST['website'])) {
               die("پات رو گذاشتی رو عسلا");
-            }        
-            // Handle registration
-            $name = trim($_POST['name']);
-            $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-            $password = $_POST['password'];
-            $confirm_password = $_POST['confirm_password'];
-            $phone = $_POST['phone'];
-            
-            if (empty($name) || empty($email) || empty($password) || empty($confirm_password)) {
-                $error_message = 'لطفاً تمام فیلدها را پر کنید';
-            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $error_message = 'لطفاً یک ایمیل معتبر وارد کنید';
-            } elseif (strlen($password) < 6) {
-                $error_message = 'رمز عبور باید حداقل ۶ کاراکتر باشد';
-            } elseif (strlen($phone) != 11) {
-                $error_message = 'شماره همراه معتبر نیست'; 
-            }elseif ($password !== $confirm_password) {
-                $error_message = 'رمز عبور و تکرار آن یکسان نیستند';
-            } else {
-                $sql = "INSERT INTO users (username, email, phone, password, status)
-                VALUES (:username, :email, :phone, :password, :status)";
-                $stmt = $pdo->prepare($sql);
-
-                $stmt->bindValue(':username', $name, PDO::PARAM_STR);
-                $stmt->bindValue(':email', $email, PDO::PARAM_STR);
-                $stmt->bindValue(':phone', $phone, PDO::PARAM_STR);
-                $stmt->bindValue(':password', password_hash($confirm_password, PASSWORD_DEFAULT), PDO::PARAM_STR);
-                $stmt->bindValue(':status', 0, PDO::PARAM_STR);
-
-                $stmt->execute();
-              
-                $_SESSION['user_id'] = $pdo->lastInsertId(); // آی‌دی کاربر جدید
-                $_SESSION['user_email'] = $email;
-                $_SESSION['user_name'] = $name;
-                $success_message = 'ثبت نام با موفقیت انجام شد';
-
-                echo '<script>setTimeout(function(){ window.location.href = "/"; }, 1000);</script>';
-            }
+          }
+      
+          $fullname = trim($_POST['name']); // این فیلد از فرم ثبت‌نام میاد
+          $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+          $password = $_POST['password'];
+          $confirm_password = $_POST['confirm_password'];
+          $phone = $_POST['phone'];
+      
+          if (empty($fullname) || empty($email) || empty($password) || empty($confirm_password)) {
+              $error_message = 'لطفاً تمام فیلدها را پر کنید';
+          } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+              $error_message = 'ایمیل معتبر نیست';
+          } elseif (strlen($password) < 6) {
+              $error_message = 'رمز عبور باید حداقل ۶ کاراکتر باشد';
+          } elseif (strlen($phone) != 11) {
+              $error_message = 'شماره همراه معتبر نیست';
+          } elseif ($password !== $confirm_password) {
+              $error_message = 'رمز عبور و تکرار آن یکسان نیستند';
+          } else {
+              // بررسی تکراری نبودن ایمیل یا شماره
+              $check = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = :email OR phone = :phone");
+              $check->execute(['email' => $email, 'phone' => $phone]);
+              if ($check->fetchColumn() > 0) {
+                  $error_message = 'کاربری با این ایمیل یا شماره همراه وجود دارد';
+              } else {
+                  // درج در دیتابیس
+                  $sql = "INSERT INTO users (username, email, phone, password, created_at, status)
+                          VALUES (:username, :email, :phone, :password, NOW(), :status)";
+                  $stmt = $pdo->prepare($sql);
+      
+                  $stmt->bindValue(':username', $fullname, PDO::PARAM_STR);
+                  $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+                  $stmt->bindValue(':phone', $phone, PDO::PARAM_STR);
+                  $stmt->bindValue(':password', password_hash($confirm_password, PASSWORD_DEFAULT), PDO::PARAM_STR);
+                  $stmt->bindValue(':status', 0, PDO::PARAM_INT);
+      
+                  $stmt->execute();
+      
+                  $_SESSION['user_id'] = $pdo->lastInsertId();
+                  $_SESSION['user_email'] = $email;
+                  $_SESSION['user_name'] = $fullname;
+      
+                  $success_message = 'ثبت نام با موفقیت انجام شد';
+                  echo '<script>setTimeout(function(){ window.location.href = "/"; }, 1000);</script>';
+              }
+          }
         }
     }
 }
